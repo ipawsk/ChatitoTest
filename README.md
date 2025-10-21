@@ -20,3 +20,16 @@
 
 ---
 
+## Demo Users (for testing)
+
+You can log in with any of the following test accounts:
+
+| Email                  | Password     | 
+|-------------------------|--------------|
+| ipaws@test.com          | 123456       |
+| cuquillo@perrillo.com   | woooow       |
+
+> ⚠️ These accounts are for **testing purposes only**.  
+> Data may reset periodically.
+
+
