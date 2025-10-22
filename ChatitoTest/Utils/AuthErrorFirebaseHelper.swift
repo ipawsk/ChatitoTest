@@ -11,9 +11,9 @@ enum AuthErrorFirebaseHelper {
     static func firebaseAuthError(_ error: Error) -> String {
         let ns = error as NSError
         switch AuthErrorCode(_bridgedNSError: ns)?.code {
-        case .networkError: return "Sin conexión. Intenta de nuevo."
-        case .userNotFound, .wrongPassword: return "Correo o contraseña incorrectos."
-        case .invalidEmail: return "Correo inválido."
+        case .networkError: return "without internet connection, try later again."
+        case .userNotFound, .wrongPassword: return "email or passwords incorrects."
+        case .invalidEmail: return "invalid email ."
         default: return error.localizedDescription
         }
     }

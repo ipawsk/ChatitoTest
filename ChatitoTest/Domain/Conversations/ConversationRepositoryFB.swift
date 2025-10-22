@@ -20,7 +20,7 @@ final class ConversationRepositoryFB: ConversationRepository {
         
         let listener = q.addSnapshotListener { snap, err in
             if let err = err { onError(err); return }
-
+            
             guard let snap else {
                 onChange([]);
                 return
@@ -54,25 +54,22 @@ final class ConversationRepositoryFB: ConversationRepository {
     }
     
     func create(memberIds: [String], title: String?) async throws -> ConversationEntity {
-            let ref = db.collection("conversations").document()
-            let now = FieldValue.serverTimestamp()
-            try await ref.setData([
-                "title": title as Any,
-                "memberIds": memberIds,
-                "members": Dictionary(uniqueKeysWithValues: memberIds.map { ($0, true) }),
-                "createdAt": now,
-                "updatedAt": now
-            ])
-            return ConversationEntity(
-                id: ref.documentID,
-                title: title,
-                memberIds: memberIds,
-                lastMessageText: nil,
-                lastMessageAt: nil,
-                updatedAt: Date()
-            )
-        }
-    
-    
-    
+        let ref = db.collection("conversations").document()
+        let now = FieldValue.serverTimestamp()
+        try await ref.setData([
+            "title": title as Any,
+            "memberIds": memberIds,
+            "members": Dictionary(uniqueKeysWithValues: memberIds.map { ($0, true) }),
+            "createdAt": now,
+            "updatedAt": now
+        ])
+        return ConversationEntity(
+            id: ref.documentID,
+            title: title,
+            memberIds: memberIds,
+            lastMessageText: nil,
+            lastMessageAt: nil,
+            updatedAt: Date()
+        )
+    }
 }

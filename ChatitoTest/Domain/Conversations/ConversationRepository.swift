@@ -14,7 +14,4 @@ protocol ConversationRepository {
                      onError: @escaping (Error) -> Void) -> AnyObject
     
     func create(memberIds: [String], title: String?) async throws -> ConversationEntity
-
 }
-
-

@@ -8,12 +8,14 @@
 import UIKit
 import FirebaseAuth
 
-final class ConversationsViewController: UIViewController, UITableViewDelegate {
+final class ConversationsViewController: UIViewController {
     
     private let viewModel: ConversationsViewModel
     private let tableView = UITableView()
     private var dataSource: UITableViewDiffableDataSource<Int, ConversationsViewModel.Row>!
     private var currentRows: [ConversationsViewModel.Row] = []
+    
+    var countChat = 0
     
     init(viewModel: ConversationsViewModel) {
         self.viewModel = viewModel
@@ -32,20 +34,29 @@ final class ConversationsViewController: UIViewController, UITableViewDelegate {
     }
     
     func configNav() {
-        title = "Conversaciones"
+        title = "Conversations"
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(
-            title: "Salir",
-            style: .plain,
-            target: self,
-            action: #selector(onLogout)
-        )
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .add,
             target: self,
             action: #selector(onNewConversation)
         )
+        
+        navigationItem.rightBarButtonItems = [
+            UIBarButtonItem(
+                image: UIImage(systemName: "rectangle.portrait.and.arrow.right"),
+                style: .plain,
+                target: self,
+                action: #selector(onLogout)
+            ),
+            
+            UIBarButtonItem(
+                image: UIImage(systemName: "person.circle"),
+                style: .plain,
+                target: self,
+                action: #selector(onProfile)
+            )
+        ]
     }
     
     private func buildTable() {
@@ -89,7 +100,8 @@ final class ConversationsViewController: UIViewController, UITableViewDelegate {
             do {
                 guard let myUid = Auth.auth().currentUser?.uid else { return }
                 let members = [myUid]
-                _ = try await viewModel.createConversation(memberIds: members, title: "Nuevo chat de prueba")
+                countChat += 1
+                _ = try await viewModel.createConversation(memberIds: members, title: "New chat \(countChat)")
             }
         }
     }
@@ -98,10 +110,21 @@ final class ConversationsViewController: UIViewController, UITableViewDelegate {
         do {
             try Auth.auth().signOut()
         } catch {
-            print(" Error al cerrar sesión:", error.localizedDescription)
+            print("Log out failed:", error.localizedDescription)
         }
     }
     
+    @objc private func onProfile() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let repo = UserRepositoryFirebase()
+        let vm = ProfileViewModel(repo: repo, uid: uid)
+        let vc = ProfileViewController(viewModel: vm)
+        navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+// MARK: - UITableViewDelegate
+extension ConversationsViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let id = viewModel.conversationId(at: indexPath.row, in: currentRows)

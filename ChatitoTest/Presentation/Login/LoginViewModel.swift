@@ -18,15 +18,14 @@ final class LoginViewModel {
     
     func login() {
         guard !email.isEmpty, !password.isEmpty else {
-            onError?("Por favor completa todos los campos.")
+            onError?("Please add all information.")
             return
         }
         
         onLoading?(true)
         Task {
             do {
-                let result = try await Auth.auth().signIn(withEmail: email, password: password)
-                print(" Usuario autenticado:", result.user.email ?? "")
+                let _ = try await Auth.auth().signIn(withEmail: email, password: password)
                 onSuccess?()
             } catch {
                 onError?(AuthErrorFirebaseHelper.firebaseAuthError(error))

@@ -10,6 +10,7 @@ import Foundation
 struct MessageEntity: Hashable {
     let id: String
     let senderId: String
+    let username: String?
     let text: String
     let createdAt: Date
 }

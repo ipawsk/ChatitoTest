@@ -12,7 +12,7 @@ final class LoginViewController: UIViewController {
     
     private lazy var emailTF: UITextField = {
         let email = UITextField()
-        email.placeholder = "Correo"
+        email.placeholder = "Email"
         email.autocapitalizationType = .none
         email.keyboardType = .emailAddress
         email.borderStyle = .roundedRect
@@ -22,7 +22,7 @@ final class LoginViewController: UIViewController {
     
     private lazy var passwordTF: UITextField = {
         let password = UITextField()
-        password.placeholder = "Contraseña"
+        password.placeholder = "Password"
         password.isSecureTextEntry = true
         password.borderStyle = .roundedRect
         password.addTarget(self, action: #selector(textChanged), for: .editingChanged)
@@ -32,7 +32,7 @@ final class LoginViewController: UIViewController {
     private lazy var loginButton: UIButton = {
         let loginBtn =  UIButton()
         loginBtn.configuration = .filled()
-        loginBtn.setTitle("Entrar", for: .normal)
+        loginBtn.setTitle("Sign In", for: .normal)
         loginBtn.addTarget(self, action: #selector(onLogin), for: .touchUpInside)
         return loginBtn
     }()
@@ -50,7 +50,7 @@ final class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Iniciar sesión"
+        title = "Login"
         view.backgroundColor = .systemBackground
         setupUI()
         bindViewModel()
@@ -95,7 +95,7 @@ final class LoginViewController: UIViewController {
         
         viewModel.onSuccess = { [weak self] in
             DispatchQueue.main.async {
-                let alert = UIAlertController(title: "Éxito", message: "Sesión iniciada correctamente.", preferredStyle: .alert)
+                let alert = UIAlertController(title: "Success", message: "Logged.", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default))
                 self?.present(alert, animated: true)
             }

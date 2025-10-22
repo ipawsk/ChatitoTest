@@ -12,15 +12,24 @@ final class RegisterViewController: UIViewController {
     
     private lazy var nameTF: UITextField = {
         let name = UITextField()
-        name.placeholder = "Nombre"
+        name.placeholder = "Name"
         name.borderStyle = .roundedRect
         name.addTarget(self, action: #selector(onChange), for: .editingChanged)
         return name
     }()
     
+    private lazy var usernameTF: UITextField = {
+        let username = UITextField()
+        username.placeholder = "username "
+        username.autocapitalizationType = .none
+        username.borderStyle = .roundedRect
+        username.addTarget(self, action: #selector(onChange), for: .editingChanged)
+        return username
+    }()
+    
     private lazy var emailTF: UITextField = {
         let email = UITextField()
-        email.placeholder = "Correo"
+        email.placeholder = "Email"
         email.autocapitalizationType = .none
         email.keyboardType = .emailAddress
         email.borderStyle = .roundedRect
@@ -30,7 +39,7 @@ final class RegisterViewController: UIViewController {
     
     private lazy var passwordTF: UITextField = {
         let password = UITextField()
-        password.placeholder = "Contraseña (min 6)"
+        password.placeholder = "Password (min 6)"
         password.isSecureTextEntry = true
         password.borderStyle = .roundedRect
         password.addTarget(self, action: #selector(onChange), for: .editingChanged)
@@ -40,7 +49,7 @@ final class RegisterViewController: UIViewController {
     private lazy var registerButton: UIButton = {
         let registerBtn =  UIButton()
         registerBtn.configuration = .filled()
-        registerBtn.setTitle("Crear cuenta", for: .normal)
+        registerBtn.setTitle("Create Account", for: .normal)
         registerBtn.addTarget(self, action: #selector(onRegister), for: .touchUpInside)
         return registerBtn
     }()
@@ -49,7 +58,7 @@ final class RegisterViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Crear cuenta"
+        title = "Register"
         view.backgroundColor = .systemBackground
         setupUI()
         bind()
@@ -58,7 +67,7 @@ final class RegisterViewController: UIViewController {
     private func setupUI() {
         spinner.hidesWhenStopped = true
 
-        let stack = UIStackView(arrangedSubviews: [nameTF, emailTF, passwordTF, registerButton, spinner])
+        let stack = UIStackView(arrangedSubviews: [nameTF, usernameTF, emailTF, passwordTF, registerButton, spinner])
         stack.axis = .vertical
         stack.spacing = 12
         stack.translatesAutoresizingMaskIntoConstraints = false
@@ -69,6 +78,7 @@ final class RegisterViewController: UIViewController {
             stack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
             stack.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             nameTF.heightAnchor.constraint(equalToConstant: 44),
+            usernameTF.heightAnchor.constraint(equalToConstant: 44),
             emailTF.heightAnchor.constraint(equalToConstant: 44),
             passwordTF.heightAnchor.constraint(equalToConstant: 44),
             registerButton.heightAnchor.constraint(equalToConstant: 48),
@@ -98,6 +108,7 @@ final class RegisterViewController: UIViewController {
 
     @objc private func onChange() {
         vm.displayName = nameTF.text ?? ""
+        vm.username = usernameTF.text ?? ""
         vm.email = emailTF.text ?? ""
         vm.password = passwordTF.text ?? ""
     }

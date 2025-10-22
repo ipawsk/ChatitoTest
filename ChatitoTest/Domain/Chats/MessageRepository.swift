@@ -12,7 +12,7 @@ protocol MessageRepository {
     func observe(conversationId: String,
                  onChange: @escaping ([MessageEntity]) -> Void,
                  onError: @escaping (Error) -> Void) -> AnyObject
-
+    
     func send(conversationId: String,
               senderId: String,
               text: String) async throws

@@ -62,6 +62,4 @@ final class ConversationsViewModel {
     func createConversation(memberIds: [String], title: String?) async throws -> ConversationEntity {
         try await repo.create(memberIds: memberIds, title: title)
     }
-
 }
-
