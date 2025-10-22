@@ -32,6 +32,7 @@ You can log in with any of the following test accounts:
 > ⚠️ These accounts are for **testing purposes only**.  
 > Data may reset periodically.
 
+---
 ## 📜 Changelog
 
 ### 🏁 v1.0.0 – MVP
